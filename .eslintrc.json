@@ -1,7 +1,7 @@
 {
   "root": true,
-  "extends": "airbnb-base",
-  "plugins": ["@typescript-eslint"],
+  "extends": ["airbnb-base","prettier"],
+  "plugins": ["@typescript-eslint","prettier"],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "no-console": "off",
@@ -11,7 +11,13 @@
         "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
         "message": "Unexpected property on console object was called"
       }
-    ]
+    ],
+    "prettier/prettier": ["error",
+      {
+        "singleQuote": true,
+        "semi": true,
+        "trailingComma": "es5"
+      }]
   },
   "parserOptions": {
     "sourceType": "module",
