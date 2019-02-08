@@ -1,5 +1,8 @@
 {
+  "root": true,
   "extends": "airbnb-base",
+  "plugins": ["@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "no-console": "off",
     "no-restricted-syntax": [
@@ -9,5 +12,11 @@
         "message": "Unexpected property on console object was called"
       }
     ]
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }
