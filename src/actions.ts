@@ -1,3 +1,5 @@
+import { getValues, getMinutesFromText } from './utils';
+
 const request = require('request');
 const { WebClient } = require('@slack/client');
 const moment = require('moment-timezone');
@@ -146,16 +148,12 @@ async function createHandler(payload, res) {
 }
 
 async function biddingHandler(payload, res) {
-  const {
-    channel,
-    user,
-    actions: user_actions,
-    original_message,
-  } = payload;
+  const { channel, user, actions: user_actions, original_message } = payload;
 
-  const value = user_actions[0].name === 'bidding'
-    ? Number(user_actions[0].selected_options[0].value)
-    : Number(user_actions[0].value);
+  const value =
+    user_actions[0].name === 'bidding'
+      ? Number(user_actions[0].selected_options[0].value)
+      : Number(user_actions[0].value);
 
   const original_fields = original_message.attachments[0].fields;
   const original_fields_obj = {
@@ -169,29 +167,46 @@ async function biddingHandler(payload, res) {
     description: original_fields.find(elm => elm.title === '商品説明'),
   };
 
-  const start_value = original_fields_obj.start_value
-    && Number(original_fields_obj.start_value.value.replace(/[¥,]/g, ''));
-  const end_value = original_fields_obj.end_value
-    && Number(original_fields_obj.end_value.value.replace(/[¥,]/g, ''));
-  const now_value = original_fields_obj.now_value
-    && Number(original_fields_obj.now_value.value.replace(/[¥,]/g, ''));
+  const start_value =
+    original_fields_obj.start_value &&
+    Number(original_fields_obj.start_value.value.replace(/[¥,]/g, ''));
+  const end_value =
+    original_fields_obj.end_value &&
+    Number(original_fields_obj.end_value.value.replace(/[¥,]/g, ''));
+  const now_value =
+    original_fields_obj.now_value &&
+    Number(original_fields_obj.now_value.value.replace(/[¥,]/g, ''));
   const finish = Boolean(end_value && value >= end_value);
   const period = moment(original_fields_obj.period.value);
-  const alreadyFinish = Boolean((moment().diff(period) >= 0));
+  const alreadyFinish = Boolean(moment().diff(period) >= 0);
 
-  const winner = alreadyFinish ? original_fields_obj.last_bidding_user ? original_fields_obj.last_bidding_user.value.replace(/[<>@]/g, '') : null : finish ? user.id : null;
+  const winner = alreadyFinish
+    ? original_fields_obj.last_bidding_user
+      ? original_fields_obj.last_bidding_user.value.replace(/[<>@]/g, '')
+      : null
+    : finish
+    ? user.id
+    : null;
 
   // 期間を過ぎた場合
   if (alreadyFinish) {
-    await slack.chat.postEphemeral({ channel: channel.id, user: user.id, text: '既に出品が終了しています' });
+    await slack.chat.postEphemeral({
+      channel: channel.id,
+      user: user.id,
+      text: '既に出品が終了しています',
+    });
   }
 
   // 入札価格が更新されない場合
   if (
-    (start_value && start_value > value)
-    || (now_value && now_value >= value)
+    (start_value && start_value > value) ||
+    (now_value && now_value >= value)
   ) {
-    await slack.chat.postEphemeral({ channel: channel.id, user: user.id, text: '入札できませんでした' });
+    await slack.chat.postEphemeral({
+      channel: channel.id,
+      user: user.id,
+      text: '入札できませんでした',
+    });
     res.status(200).end();
     return;
   }
@@ -215,7 +230,10 @@ async function biddingHandler(payload, res) {
     },
     {
       ...original_fields_obj.period,
-      value: finish || alreadyFinish ? period.add(1, 'minutes').format('YYYY-MM-DD HH:mm:ss') : period.format('YYYY-MM-DD HH:mm:ss'),
+      value:
+        finish || alreadyFinish
+          ? period.add(1, 'minutes').format('YYYY-MM-DD HH:mm:ss')
+          : period.format('YYYY-MM-DD HH:mm:ss'),
     },
   ];
 
@@ -253,7 +271,10 @@ async function biddingHandler(payload, res) {
 
   slack.chat
     .update({
-      channel: channel.id, text, attachments, ts: original_message.ts,
+      channel: channel.id,
+      text,
+      attachments,
+      ts: original_message.ts,
     })
     .then(console.log)
     .catch(console.error);
@@ -261,9 +282,14 @@ async function biddingHandler(payload, res) {
   slack.chat
     .postMessage({
       channel: channel.id,
-      text: finish || alreadyFinish
-        ? winner ? `*<@${winner}> が落札*\n\n${original_fields_obj.sell_user.value} 取引を進めてください` : `${original_fields_obj.sell_user.value} 落札者はいませんでした`
-        : `${user.name} が ¥${Number(value).toLocaleString()} で入札`,
+      text:
+        finish || alreadyFinish
+          ? winner
+            ? `*<@${winner}> が落札*\n\n${
+                original_fields_obj.sell_user.value
+              } 取引を進めてください`
+            : `${original_fields_obj.sell_user.value} 落札者はいませんでした`
+          : `${user.name} が ¥${Number(value).toLocaleString()} で入札`,
       reply_broadcast: true,
       thread_ts: original_message.ts,
     })
@@ -344,47 +370,4 @@ function checkCreateSubmission(submission) {
   }
 
   return errors;
-}
-
-function getValues(start, end, includeStartValue = false) {
-  start = Number(start);
-  end = typeof str === 'string' ? Number(end.replace(/[¥,]/g, '')) : end;
-  end = isNaN(end) ? null : end;
-  const values = [];
-
-  for (let i = 0; i < 10; i++) {
-    if (i === 0 && includeStartValue) {
-      values.push(start);
-      continue;
-    }
-    const lastValue = values.length ? values[values.length - 1] : start;
-    const newValue = lastValue + Math.max(50, 10 ** (lastValue.toString().length - 2));
-    if (end && newValue >= end) {
-      values.push(end);
-      break;
-    }
-    values.push(newValue);
-  }
-
-  return values.map(value => ({
-    text: `¥${value.toLocaleString()}`,
-    value: value.toString(),
-  }));
-}
-
-function getMinutesFromText(str) {
-  const [, num, unit] = str.match(/^(\d)+([mhdw])$/);
-
-  if (unit === 'm') {
-    return Number(num);
-  }
-  if (unit === 'h') {
-    return Number(num) * 60;
-  }
-  if (unit === 'd') {
-    return Number(num) * 60 * 24;
-  }
-  if (unit === 'w') {
-    return Number(num) * 60 * 24 * 7;
-  }
 }
