@@ -38,5 +38,9 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "dependencies": {
+    "@slack/client": "^4.8.0",
+    "moment-timezone": "^0.5.23"
   }
 }
