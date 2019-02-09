@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint -c ./.eslintrc.json 'src/**/*.{js,ts}'",
-    "lint-staged": "lint-staged"
+    "lint": "eslint -c ./.eslintrc.json '{src,test}/**/*.{js,ts}'",
+    "lint-staged": "lint-staged",
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha -r ts-node/register 'test/**/*.ts'"
   },
   "repository": {
     "type": "git",
