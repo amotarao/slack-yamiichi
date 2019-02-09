@@ -1,4 +1,5 @@
-const request = require('request');
+import { WebClient, Dialog } from '@slack/client';
+import { Request, Response } from 'express';
 
 /**
  * Responds to any HTTP request.
@@ -6,13 +7,13 @@ const request = require('request');
  * @param {!express:Request} req HTTP request context.
  * @param {!express:Response} res HTTP response context.
  */
-exports.helloWorld = (req, res) => {
+exports.helloWorld = async (req: Request, res: Response) => {
   const { body } = req;
-  const { trigger_id } = body;
+  const { trigger_id: trigger } = body;
 
   console.log(body);
 
-  const dialog = {
+  const dialog: Dialog = {
     callback_id: 'create',
     title: '闇市出品フォーム',
     submit_label: '出品',
@@ -104,7 +105,7 @@ exports.helloWorld = (req, res) => {
   };
 
   const token = process.env.SLACK_OAUTH_TOKEN;
-  const url = `https://slack.com/api/dialog.open?token=${token}&trigger_id=${trigger_id}&dialog=${encodeURI(JSON.stringify(dialog))}`;
+  const url = `https://slack.com/api/dialog.open?token=${token}&trigger_id=${trigger}&dialog=${encodeURI(JSON.stringify(dialog))}`;
 
   request.post(url, (error, response, body) => {
     console.log(body);

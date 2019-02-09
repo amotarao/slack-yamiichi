@@ -1,8 +1,7 @@
+import { WebClient, AttachmentAction } from '@slack/client';
+import { Request, Response } from 'express';
+import moment from 'moment-timezone';
 import { getValues, getMinutesFromText } from './utils';
-
-const request = require('request');
-const { WebClient } = require('@slack/client');
-const moment = require('moment-timezone');
 
 const slack = new WebClient(process.env.SLACK_OAUTH_TOKEN);
 moment.tz.setDefault('Asia/Tokyo');
@@ -13,7 +12,7 @@ moment.tz.setDefault('Asia/Tokyo');
  * @param {!express:Request} req HTTP request context.
  * @param {!express:Response} res HTTP response context.
  */
-exports.helloWorld = (req, res) => {
+exports.helloWorld = (req: Request, res: Response) => {
   const { body } = req;
   console.log(body);
   const payload = JSON.parse(body.payload);
@@ -74,7 +73,7 @@ async function createHandler(payload, res) {
     },
   ];
 
-  const actions = [
+  const actions: AttachmentAction[] = [
     // {
     //   name: 'close',
     //   text: '出品終了',
