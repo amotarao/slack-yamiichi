@@ -38,7 +38,12 @@ export const getValues = (
  * @param sc ショートコード (分,時,日,週間)
  */
 export const getMinutesFromText = (sc: string): number => {
-  const [, num, unit] = sc.match(/^(\d+)([mhdw])$/);
+  const matches = sc.match(/^(\d+)([mhdw])$/)
+
+  if (!matches) {
+    return null;
+  }
+  const [, num, unit] = matches;
 
   if (unit === 'm') {
     return Number(num);
@@ -52,5 +57,5 @@ export const getMinutesFromText = (sc: string): number => {
   if (unit === 'w') {
     return Number(num) * 60 * 24 * 7;
   }
-  return 0;
+  return null;
 };

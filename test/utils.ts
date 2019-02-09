@@ -141,33 +141,36 @@ describe('utils.getValues 入札時のテスト(現在価格と終了価格で�
 
 describe('utils.getMinutesFromText ショートコードの変換', () => {
   it('1m 1分', () => {
-    assert.deepEqual(utils.getMinutesFromText('1m'), 1);
+    assert.equal(utils.getMinutesFromText('1m'), 1);
   });
   it('30m 30分', () => {
-    assert.deepEqual(utils.getMinutesFromText('30m'), 30);
+    assert.equal(utils.getMinutesFromText('30m'), 30);
   });
   it('60m 60分', () => {
-    assert.deepEqual(utils.getMinutesFromText('60m'), 60);
+    assert.equal(utils.getMinutesFromText('60m'), 60);
   });
   it('1h 1時間 60分', () => {
-    assert.deepEqual(utils.getMinutesFromText('1h'), 60);
+    assert.equal(utils.getMinutesFromText('1h'), 60);
   });
   it('6h 6時間 360分', () => {
-    assert.deepEqual(utils.getMinutesFromText('6h'), 360);
+    assert.equal(utils.getMinutesFromText('6h'), 360);
   });
   it('24h 24時間 1440分', () => {
-    assert.deepEqual(utils.getMinutesFromText('24h'), 1440);
+    assert.equal(utils.getMinutesFromText('24h'), 1440);
   });
   it('1d 1日 1440分', () => {
-    assert.deepEqual(utils.getMinutesFromText('1d'), 1440);
+    assert.equal(utils.getMinutesFromText('1d'), 1440);
   });
   it('7d 7日 10080分', () => {
-    assert.deepEqual(utils.getMinutesFromText('7d'), 10080);
+    assert.equal(utils.getMinutesFromText('7d'), 10080);
   });
   it('1w 1週間 10080分', () => {
-    assert.deepEqual(utils.getMinutesFromText('1w'), 10080);
+    assert.equal(utils.getMinutesFromText('1w'), 10080);
   });
   it('5w 5週間 50400分', () => {
-    assert.deepEqual(utils.getMinutesFromText('5w'), 50400);
+    assert.equal(utils.getMinutesFromText('5w'), 50400);
+  });
+  it('適当な文字列', () => {
+    assert.equal(utils.getMinutesFromText('abcdefg123'), null);
   });
 });
