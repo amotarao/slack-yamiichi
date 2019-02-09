@@ -91,7 +91,14 @@ async function createHandler(payload, res) {
       name: 'bidding',
       text: '価格を選んで入札',
       type: 'select',
-      options: getValues(submission.start_value, submission.end_value, true),
+      options: getValues(
+        submission.start_value,
+        submission.end_value,
+        true
+      ).map(value => ({
+        text: `¥${value.toLocaleString()}`,
+        value: value.toString(),
+      })),
       confirm: {
         title: '本当に入札しますか？',
         text: '選択した価格で入札します',
