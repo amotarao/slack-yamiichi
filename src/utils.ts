@@ -28,7 +28,7 @@ export const getValues = (
 };
 
 export const getMinutesFromText = (str: string): number => {
-  const [, num, unit] = str.match(/^(\d)+([mhdw])$/);
+  const [, num, unit] = str.match(/^(\d+)([mhdw])$/);
 
   if (unit === 'm') {
     return Number(num);
