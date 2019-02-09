@@ -9,7 +9,11 @@ export const getValues = (
     values.push(start);
   }
 
-  while (values.length <= 10) {
+  if (start === end) {
+    return values;
+  }
+
+  while (values.length < 10) {
     const lastValue = values.length ? values[values.length - 1] : start;
     const newValue =
       lastValue + Math.max(50, 10 ** (lastValue.toString().length - 2));
