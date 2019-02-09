@@ -1,10 +1,17 @@
 {
   "root": true,
-  "extends": ["airbnb-base","prettier"],
-  "plugins": ["@typescript-eslint","prettier"],
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
   "parser": "@typescript-eslint/parser",
   "rules": {
     "no-console": "off",
+    "no-unused-vars": "off",
     "no-restricted-syntax": [
       "error",
       {
@@ -13,12 +20,14 @@
       }
     ],
     "import/no-unresolved": "off",
-    "prettier/prettier": ["error",
+    "prettier/prettier": [
+      "error",
       {
         "singleQuote": true,
         "semi": true,
         "trailingComma": "es5"
-      }]
+      }
+    ]
   },
   "parserOptions": {
     "sourceType": "module",
