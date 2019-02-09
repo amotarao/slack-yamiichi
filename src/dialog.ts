@@ -1,6 +1,8 @@
 import { WebClient, Dialog } from '@slack/client';
 import { Request, Response } from 'express';
 
+const slack = new WebClient(process.env.SLACK_OAUTH_TOKEN);
+
 /**
  * Responds to any HTTP request.
  *
@@ -104,11 +106,15 @@ exports.helloWorld = async (req: Request, res: Response) => {
     ],
   };
 
-  const token = process.env.SLACK_OAUTH_TOKEN;
-  const url = `https://slack.com/api/dialog.open?token=${token}&trigger_id=${trigger}&dialog=${encodeURI(JSON.stringify(dialog))}`;
+  try {
+    const result = await slack.dialog.open({
+      trigger_id: trigger,
+      dialog,
+    });
+    console.log(result);
+  } catch (error) {
+    console.error(error);
+  }
 
-  request.post(url, (error, response, body) => {
-    console.log(body);
-    res.status(response.statusCode).end();
-  });
+  res.status(200).end();
 };
