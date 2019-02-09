@@ -1,3 +1,9 @@
+/**
+ * 入札価格の候補を生成
+ * @param start 開始価格 / 現在価格
+ * @param end 終了価格
+ * @param includeStartValue startを含むか (開始価格なら true)
+ */
 export const getValues = (
   start: number,
   end: number | null,
@@ -27,8 +33,12 @@ export const getValues = (
   return values;
 };
 
-export const getMinutesFromText = (str: string): number => {
-  const [, num, unit] = str.match(/^(\d+)([mhdw])$/);
+/**
+ * 日時のショートコードを分の値に変換する
+ * @param sc ショートコード (分,時,日,週間)
+ */
+export const getMinutesFromText = (sc: string): number => {
+  const [, num, unit] = sc.match(/^(\d+)([mhdw])$/);
 
   if (unit === 'm') {
     return Number(num);
