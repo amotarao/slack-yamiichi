@@ -1,0 +1,42 @@
+steps:
+  - name: 'node:8'
+    entrypoint: 'npm'
+    args:
+    - 'install'
+    - '--save-dev'
+    - 'typescript'
+    id: 'npm-install'
+
+  - name: 'node:8'
+    entrypoint: 'npm'
+    args:
+    - 'run'
+    - 'build'
+    waitFor:
+    - 'npm-install'
+    id: 'npm-run-build'
+
+  - name: 'node:8'
+    entrypoint: 'node'
+    args:
+    - 'scripts/copy-package-json.js'
+    - '--dir=build/app/dialog'
+    waitFor:
+    - '-'
+    id: 'copy-package-json'
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+    - 'functions'
+    - 'deploy'
+    - 'dialog'
+    - '--entry-point=dialogRequest'
+    - '--source=build/app/dialog'
+    - '--region=asia-northeast1'
+    - '--memory=128MB'
+    - '--runtime=nodejs8'
+    - '--trigger-http'
+    waitFor:
+    - 'npm-run-build'
+    - 'copy-package-json'
+    id: 'deploy'
