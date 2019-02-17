@@ -1,4 +1,8 @@
 module.exports = {
+  "env": {
+    "node": true,
+    "commonjs": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -13,6 +17,8 @@ module.exports = {
     "project": "./tsconfig.json"
   },
   "rules": {
+    "no-console": "off",
+    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/indent": ["error", 2],
     "prettier/prettier": [
       "error",
