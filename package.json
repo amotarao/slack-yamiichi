@@ -1,5 +1,5 @@
 {
-  "name": "slack-yamiichi",
+  "name": "yamiichi-on-slack",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amotarao/slack-yamiichi.git"
+    "url": "git+https://github.com/amotarao/yamiichi-on-slack.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/amotarao/slack-yamiichi/issues"
+    "url": "https://github.com/amotarao/yamiichi-on-slack/issues"
   },
-  "homepage": "https://github.com/amotarao/slack-yamiichi#readme"
+  "homepage": "https://github.com/amotarao/yamiichi-on-slack#readme"
 }

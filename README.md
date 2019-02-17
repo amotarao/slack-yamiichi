@@ -1,1 +1,1 @@
-# slack-yamiichi
+# yamiichi-on-slack
