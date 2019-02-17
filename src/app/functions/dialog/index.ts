@@ -16,7 +16,11 @@ export const dialogFunction = async (
   const { body } = req;
   console.log('Dialog Request', body);
 
-  const { trigger_id }: { trigger_id: string } = body;
+  const { token, trigger_id }: { token: string; trigger_id: string } = body;
+
+  if (token !== process.env.SLACK_VERIFICATION_TOKEN) {
+    return res.send(403).end();
+  }
 
   const dialog: Dialog = {
     callback_id: IDs.Create,
