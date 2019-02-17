@@ -1,0 +1,23 @@
+steps:
+  - name: node:8
+    entrypoint: npm
+    args:
+    - install
+
+  - name: node:8
+    entrypoint: npm
+    args:
+    - run
+    - build
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+    - functions
+    - deploy
+    - example-ts
+    - --entry-point=example
+    - --source=build
+    - --region=asia-northeast1
+    - --memory=128MB
+    - --runtime=nodejs8
+    - --trigger-http
