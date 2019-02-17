@@ -39,3 +39,20 @@ steps:
     - 'npm-run-build'
     - 'copy-package-json'
     id: 'deploy-dialog'
+
+  # actions
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+    - 'functions'
+    - 'deploy'
+    - 'actions'
+    - '--entry-point=actionsFunction'
+    - '--source=build/app'
+    - '--region=asia-northeast1'
+    - '--memory=128MB'
+    - '--runtime=nodejs8'
+    - '--trigger-http'
+    waitFor:
+    - 'npm-run-build'
+    - 'copy-package-json'
+    id: 'deploy-actions'
