@@ -52,7 +52,7 @@ export const createExhibitionMessageFields = (
   fields.push({
     title: '出品者',
     value: `<@${sellerID}>`,
-    short: !hasBidder, // 最終入札者がいれば false
+    short: hasBidder, // 最終入札者がいれば true
   });
 
   hasBidder &&
