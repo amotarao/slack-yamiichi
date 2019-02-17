@@ -1,41 +1,42 @@
 steps:
-  - name: node:8
-    entrypoint: npm
+  - name: 'node:8'
+    entrypoint: 'npm'
     args:
-    - install
-    - --save-dev
-    - typescript
-    id: npm-install
+    - 'install'
+    - '--save-dev'
+    - 'typescript'
+    id: 'npm-install'
 
-  - name: node:8
-    entrypoint: npm
+  - name: 'node:8'
+    entrypoint: 'npm'
     args:
-    - run
-    - build
+    - 'run'
+    - 'build'
     waitFor:
-    - npm-install
-    id: npm-run-build
+    - 'npm-install'
+    id: 'npm-run-build'
 
   - name: 'gcr.io/cloud-builders/gsutil'
     args:
-    - cp
-    - ./package.json
-    - ./build/package.json
+    - 'cp'
+    - './package.json'
+    - './build/package.json'
     waitFor:
-    - -
-    id: copy-package-json
+    - '-'
+    id: 'copy-package-json'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
-    - functions
-    - deploy
-    - example-ts
-    - --entry-point=example
-    - --source=build
-    - --region=asia-northeast1
-    - --memory=128MB
-    - --runtime=nodejs8
-    - --trigger-http
+    - 'functions'
+    - 'deploy'
+    - 'example-ts'
+    - '--entry-point=example'
+    - '--source=build'
+    - '--region=asia-northeast1'
+    - '--memory=128MB'
+    - '--runtime=nodejs8'
+    - '--trigger-http'
     waitFor:
-    - npm-run-build
-    - copy-package-json
+    - 'npm-run-build'
+    - 'copy-package-json'
+    id: 'deploy'
