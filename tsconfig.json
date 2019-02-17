@@ -5,5 +5,11 @@
     "strict": true,
     "rootDir": "./src",
     "outDir": "./build"
-  }
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
+  ]
 }
