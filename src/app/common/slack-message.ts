@@ -68,11 +68,12 @@ export const createExhibitionMessageFields = (
     short: true,
   });
 
-  fields.push({
-    title: hasBidder ? '現在の価格' : '開始価格',
-    value: `¥${startValue.toLocaleString()}`,
-    short: true,
-  });
+  isAuction &&
+    fields.push({
+      title: hasBidder ? '現在の価格' : '開始価格',
+      value: `¥${startValue.toLocaleString()}`,
+      short: true,
+    });
 
   endDate &&
     fields.push({
