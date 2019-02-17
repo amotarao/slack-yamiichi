@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/amotarao/yamiichi-on-slack/issues"
   },
-  "homepage": "https://github.com/amotarao/yamiichi-on-slack#readme"
+  "homepage": "https://github.com/amotarao/yamiichi-on-slack#readme",
+  "devDependencies": {
+    "typescript": "^3.3.3"
+  }
 }
