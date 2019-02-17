@@ -16,11 +16,11 @@ export interface CreateInterface {
   user: { id: string; name: string };
   channel: { id: string; name: string };
   submission: {
-    title: string | null;
-    comment: string | null;
+    name: string | null;
+    description: string | null;
     start_value: string | null;
     end_value: string | null;
-    period: string | null;
+    exhibition_period: string | null;
   };
   callback_id: 'create';
   response_url: string;
@@ -39,14 +39,14 @@ export const createHandler = async (
   }
 
   const isAuction = elms.start_value !== elms.end_value;
-  const { endDate } = getPeriod(elms.period);
+  const { endDate } = getPeriod(elms.exhibition_period);
 
   const fields = createExhibitionMessageFields(
     isAuction,
     false,
     null,
-    elms.title || '',
-    elms.comment,
+    elms.name || '',
+    elms.description,
     user.id,
     null,
     Number(elms.start_value),
@@ -61,7 +61,7 @@ export const createHandler = async (
     Number(elms.end_value)
   );
 
-  const text = `*開催中* ${elms.title}`;
+  const text = `*開催中* ${elms.name}`;
 
   const postResult = await client.chat.postMessage({
     channel: channel.id,

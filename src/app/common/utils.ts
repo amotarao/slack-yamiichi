@@ -1,5 +1,6 @@
 import { CreateInterface } from '../functions/actions/create';
 import * as moment from '../modules/moment';
+import { ExhibitElementIDs } from './enums';
 
 /**
  * 入札価格の候補を生成
@@ -99,9 +100,9 @@ export const checkElementsForCreate = (
 ): { name: string; error: string }[] => {
   const errors = [];
 
-  if (!elms.title) {
+  if (!elms.name) {
     errors.push({
-      name: 'title',
+      name: ExhibitElementIDs.Name,
       error: '必須項目です',
     });
   }
@@ -111,23 +112,23 @@ export const checkElementsForCreate = (
 
     if (Number.isNaN(start_value)) {
       errors.push({
-        name: 'start_value',
+        name: ExhibitElementIDs.StartValue,
         error: '数値を入力してください',
       });
     } else if (!Number.isInteger(start_value)) {
       errors.push({
-        name: 'start_value',
+        name: ExhibitElementIDs.StartValue,
         error: '整数を入力してください',
       });
     } else if (start_value >= 1000000) {
       errors.push({
-        name: 'start_value',
+        name: ExhibitElementIDs.StartValue,
         error: '¥999,999 までにしてください',
       });
     }
   } else {
     errors.push({
-      name: 'start_value',
+      name: ExhibitElementIDs.StartValue,
       error: '必須項目です',
     });
   }
@@ -138,30 +139,30 @@ export const checkElementsForCreate = (
 
     if (Number.isNaN(end_value)) {
       errors.push({
-        name: 'end_value',
+        name: ExhibitElementIDs.EndValue,
         error: '数値を入力してください',
       });
     } else if (!Number.isInteger(end_value)) {
       errors.push({
-        name: 'end_value',
+        name: ExhibitElementIDs.EndValue,
         error: '整数を入力してください',
       });
     } else if (end_value >= 1000000) {
       errors.push({
-        name: 'end_value',
+        name: ExhibitElementIDs.EndValue,
         error: '¥999,999 までにしてください',
       });
     } else if (start_value > end_value) {
       errors.push({
-        name: 'end_value',
+        name: ExhibitElementIDs.EndValue,
         error: '開始価格 以上の金額を入力してください',
       });
     }
   }
 
-  if (!elms.period) {
+  if (!elms.exhibition_period) {
     errors.push({
-      name: 'period',
+      name: ExhibitElementIDs.ExhibitionPeriod,
       error: '必須項目です',
     });
   }
