@@ -9,7 +9,7 @@ import {
 
 const client = new WebClient(process.env.SLACK_OAUTH_TOKEN);
 
-export const dialogRequest = async (
+export const dialogFunction = async (
   req: Request,
   res: Response
 ): Promise<void> => {
