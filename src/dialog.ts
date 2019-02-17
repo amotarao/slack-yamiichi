@@ -1,7 +1,20 @@
-import { WebClient, Dialog } from '@slack/client';
+import { Dialog } from '@slack/client';
 import { Request, Response } from 'express';
+import slack from './utils/slack';
 
-const slack = new WebClient(process.env.SLACK_OAUTH_TOKEN);
+interface DialogRequestBody {
+  token: string;
+  team_id: string;
+  team_domain: string;
+  channel_id: string;
+  channel_name: string;
+  user_id: string;
+  user_name: string;
+  command: string;
+  text: string;
+  response_url: string;
+  trigger_id: string;
+}
 
 /**
  * Responds to any HTTP request.
@@ -9,9 +22,9 @@ const slack = new WebClient(process.env.SLACK_OAUTH_TOKEN);
  * @param {!express:Request} req HTTP request context.
  * @param {!express:Response} res HTTP response context.
  */
-exports.helloWorld = async (req: Request, res: Response) => {
-  const { body } = req;
-  const { trigger_id: trigger } = body;
+export default async (req: Request, res: Response) => {
+  const { body }: { body: DialogRequestBody } = req;
+  const { trigger_id } = body;
 
   console.log(body);
 
@@ -45,7 +58,7 @@ exports.helloWorld = async (req: Request, res: Response) => {
         optional: true,
       },
       {
-        label: '販売期間',
+        label: '出品期間',
         type: 'select',
         name: 'period',
         options: [
@@ -108,7 +121,7 @@ exports.helloWorld = async (req: Request, res: Response) => {
 
   try {
     const result = await slack.dialog.open({
-      trigger_id: trigger,
+      trigger_id,
       dialog,
     });
     console.log(result);

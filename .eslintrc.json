@@ -12,6 +12,8 @@
   "rules": {
     "no-console": "off",
     "no-unused-vars": "off",
+    "import/no-unresolved": "off",
+    "camelcase": "off",
     "no-restricted-syntax": [
       "error",
       {
@@ -19,7 +21,6 @@
         "message": "Unexpected property on console object was called"
       }
     ],
-    "import/no-unresolved": "off",
     "prettier/prettier": [
       "error",
       {

@@ -59,3 +59,82 @@ export const getMinutesFromText = (sc: string): number => {
   }
   return null;
 };
+
+/**
+ *
+ * @param submission 送信データ
+ */
+export const checkCreateSubmission = (submission: {
+  [key: string]: string;
+}): { name: string; error: string }[] => {
+  const errors = [];
+
+  if (!submission.title) {
+    errors.push({
+      name: 'title',
+      error: '必須項目です',
+    });
+  }
+
+  if (submission.start_value) {
+    const start_value = Number(submission.start_value);
+
+    if (Number.isNaN(start_value)) {
+      errors.push({
+        name: 'start_value',
+        error: '数値を入力してください',
+      });
+    } else if (!Number.isInteger(start_value)) {
+      errors.push({
+        name: 'start_value',
+        error: '整数を入力してください',
+      });
+    } else if (start_value >= 1000000) {
+      errors.push({
+        name: 'start_value',
+        error: '¥999,999 までにしてください',
+      });
+    }
+  } else {
+    errors.push({
+      name: 'start_value',
+      error: '必須項目です',
+    });
+  }
+
+  if (submission.end_value) {
+    const start_value = Number(submission.start_value);
+    const end_value = Number(submission.end_value);
+
+    if (Number.isNaN(end_value)) {
+      errors.push({
+        name: 'end_value',
+        error: '数値を入力してください',
+      });
+    } else if (!Number.isInteger(end_value)) {
+      errors.push({
+        name: 'end_value',
+        error: '整数を入力してください',
+      });
+    } else if (end_value >= 1000000) {
+      errors.push({
+        name: 'end_value',
+        error: '¥999,999 までにしてください',
+      });
+    } else if (start_value > end_value) {
+      errors.push({
+        name: 'end_value',
+        error: '開始価格 以上の金額を入力してください',
+      });
+    }
+  }
+
+  if (!submission.period) {
+    errors.push({
+      name: 'period',
+      error: '必須項目です',
+    });
+  }
+
+  return errors;
+};
