@@ -20,6 +20,7 @@ steps:
     entrypoint: 'node'
     args:
     - 'scripts/copy-package-json.js'
+    - '--dir=build'
     waitFor:
     - '-'
     id: 'copy-package-json'
