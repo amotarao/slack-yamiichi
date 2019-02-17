@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/amotarao/yamiichi-on-slack#readme",
   "dependencies": {
+    "@slack/client": "^4.9.0",
     "express": "^4.16.4",
     "moment-timezone": "^0.5.23"
   },
