@@ -20,7 +20,7 @@ steps:
     - 'scripts/copy-package-json.js'
     - '--dir=build'
     waitFor:
-    - '-'
+    - 'npm-install'
     id: 'copy-package-json'
 
   - name: 'gcr.io/cloud-builders/gcloud'
