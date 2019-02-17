@@ -9,6 +9,10 @@ export const actionsFunction = (
   const body = JSON.parse(req.body.payload);
   console.log('Actions Request', body);
 
+  if (body.token !== process.env.SLACK_VERIFICATION_TOKEN) {
+    return res.send(403).end();
+  }
+
   switch (body.callback_id) {
     case 'create':
       return createHandler(body, res);
