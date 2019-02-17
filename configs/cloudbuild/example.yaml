@@ -3,8 +3,6 @@ steps:
     entrypoint: 'npm'
     args:
     - 'install'
-    - '--save-dev'
-    - 'typescript'
     id: 'npm-install'
 
   - name: 'node:8'
