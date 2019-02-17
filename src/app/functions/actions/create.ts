@@ -50,7 +50,7 @@ export const createHandler = async (
     user.id,
     null,
     Number(elms.start_value),
-    Number(elms.end_value),
+    elms.end_value === null ? null : Number(elms.end_value),
     endDate
   );
 
@@ -58,7 +58,7 @@ export const createHandler = async (
     isAuction,
     false,
     Number(elms.start_value),
-    Number(elms.end_value)
+    elms.end_value === null ? null : Number(elms.end_value)
   );
 
   const text = `*開催中* ${elms.name}`;
