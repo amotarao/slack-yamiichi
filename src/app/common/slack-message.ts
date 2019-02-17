@@ -106,6 +106,20 @@ export const createExhibitionMessageActions = (
 ): AttachmentAction[] => {
   const actions: AttachmentAction[] = [];
 
+  actions.push({
+    name: 'end',
+    text: '出品終了',
+    value: 'end',
+    type: 'button',
+    style: 'danger',
+    confirm: {
+      title: '本当に終了しますか？',
+      text: '出品を終了します (出品者のみ操作可能)',
+      ok_text: '終了',
+      dismiss_text: 'キャンセル',
+    },
+  });
+
   isAuction &&
     value !== endValue &&
     actions.push({
@@ -155,20 +169,6 @@ export const createExhibitionMessageActions = (
         dismiss_text: 'キャンセル',
       },
     });
-
-  actions.push({
-    name: 'end',
-    text: '出品終了',
-    value: 'end',
-    type: 'button',
-    style: 'danger',
-    confirm: {
-      title: '本当に終了しますか？',
-      text: '出品を終了します (出品者のみ操作可能)',
-      ok_text: '終了',
-      dismiss_text: 'キャンセル',
-    },
-  });
 
   return actions;
 };
