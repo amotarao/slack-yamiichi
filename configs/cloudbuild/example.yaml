@@ -3,6 +3,8 @@ steps:
     entrypoint: npm
     args:
     - install
+    - --save-dev
+    - typescript
 
   - name: node:8
     entrypoint: npm
