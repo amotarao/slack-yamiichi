@@ -16,11 +16,10 @@ steps:
     - 'npm-install'
     id: 'npm-run-build'
 
-  - name: 'gcr.io/cloud-builders/gsutil'
+  - name: 'node:8'
+    entrypoint: 'node'
     args:
-    - 'cp'
-    - './package.json'
-    - './build/package.json'
+    - 'scripts/copy-package-json.js'
     waitFor:
     - '-'
     id: 'copy-package-json'
